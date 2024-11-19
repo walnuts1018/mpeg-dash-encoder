@@ -14,7 +14,7 @@ RUN --mount=type=cache,target=/go/pkg/mod/,sharing=locked \
     --mount=type=cache,target=/root/.cache/go-build,sharing=locked \
     CGO_ENABLED=0 GOOS=linux go build -o main /$ROOT && chmod +x ./main
 
-FROM debian:bookworm-slim
+FROM ubuntu:noble
 WORKDIR /app
 
 RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
