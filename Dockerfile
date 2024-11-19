@@ -19,7 +19,7 @@ WORKDIR /app
 
 RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    apt-get -y update && apt-get install -y ffmpeg
+    apt-get -y update && apt-get install -y ffmpeg libva-dev libmfx-dev intel-media-va-driver-non-free vainfo
 
 COPY --from=builder /build/main ./
 EXPOSE 8080
