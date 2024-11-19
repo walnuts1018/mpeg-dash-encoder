@@ -58,6 +58,8 @@ func (u *Usecase) Run(ctx context.Context) {
 		case <-ticker.C:
 			tickerFunc()
 		case <-ctx.Done():
+			ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+			defer cancel()
 			if err := u.shutdown(ctx); err != nil {
 				slog.Error("failed to shutdown", slog.Any("error", err))
 			}
