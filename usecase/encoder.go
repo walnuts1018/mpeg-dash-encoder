@@ -110,17 +110,16 @@ func (u *Usecase) downloadUploadedFiles(ctx context.Context) (*encodeRequest, er
 
 		if objectInfo.Tags != nil {
 			startAt, ok := objectInfo.Tags["startAt"]
-			if !ok {
-				return nil, fmt.Errorf("failed to get startAt tag")
-			}
-			startAtTime, err := synchro.ParseISO[tz.AsiaTokyo](startAt)
-			if err != nil {
-				return nil, fmt.Errorf("failed to parse startAt tag: %w", err)
-			}
-			slog.Debug("startAt", slog.Any("startAt", startAtTime))
+			if ok {
+				startAtTime, err := synchro.ParseISO[tz.AsiaTokyo](startAt)
+				if err != nil {
+					return nil, fmt.Errorf("failed to parse startAt tag: %w", err)
+				}
+				slog.Debug("startAt", slog.Any("startAt", startAtTime))
 
-			if !synchro.Now[tz.AsiaTokyo]().After(startAtTime.Add(u.encodeTimeout)) {
-				continue
+				if !synchro.Now[tz.AsiaTokyo]().After(startAtTime.Add(u.encodeTimeout)) {
+					continue
+				}
 			}
 		} else {
 			slog.Debug("tags not found")
