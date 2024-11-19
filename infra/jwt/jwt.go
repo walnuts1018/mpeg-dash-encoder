@@ -5,9 +5,9 @@ import (
 	"log/slog"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
-	"github.com/walnuts1018/mpeg_dash-encoder/consts"
-	"github.com/walnuts1018/mpeg_dash-encoder/util/anyslice"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/consts"
+	"github.com/walnuts1018/mpeg-dash-encoder/util/anyslice"
 )
 
 type Manager struct {

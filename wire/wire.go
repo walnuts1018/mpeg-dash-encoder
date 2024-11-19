@@ -8,14 +8,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
-	"github.com/walnuts1018/mpeg_dash-encoder/infra/ffmpeg"
-	"github.com/walnuts1018/mpeg_dash-encoder/infra/jwt"
-	"github.com/walnuts1018/mpeg_dash-encoder/infra/minio"
-	"github.com/walnuts1018/mpeg_dash-encoder/router"
-	"github.com/walnuts1018/mpeg_dash-encoder/router/handler"
-	"github.com/walnuts1018/mpeg_dash-encoder/router/middleware"
-	"github.com/walnuts1018/mpeg_dash-encoder/usecase"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/infra/ffmpeg"
+	"github.com/walnuts1018/mpeg-dash-encoder/infra/jwt"
+	"github.com/walnuts1018/mpeg-dash-encoder/infra/minio"
+	"github.com/walnuts1018/mpeg-dash-encoder/router"
+	"github.com/walnuts1018/mpeg-dash-encoder/router/handler"
+	"github.com/walnuts1018/mpeg-dash-encoder/router/middleware"
+	"github.com/walnuts1018/mpeg-dash-encoder/usecase"
 )
 
 func CreateUsecase(

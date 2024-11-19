@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
-	"github.com/walnuts1018/mpeg_dash-encoder/usecase"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/usecase"
 )
 
 type Handler struct {

@@ -5,10 +5,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	sloggin "github.com/samber/slog-gin"
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
-	"github.com/walnuts1018/mpeg_dash-encoder/consts"
-	"github.com/walnuts1018/mpeg_dash-encoder/router/handler"
-	"github.com/walnuts1018/mpeg_dash-encoder/router/middleware"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/consts"
+	"github.com/walnuts1018/mpeg-dash-encoder/router/handler"
+	"github.com/walnuts1018/mpeg-dash-encoder/router/middleware"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
 

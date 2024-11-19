@@ -8,8 +8,8 @@ import (
 
 	"github.com/minio/minio-go/v7"
 	miniotags "github.com/minio/minio-go/v7/pkg/tags"
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
-	"github.com/walnuts1018/mpeg_dash-encoder/domain/entity"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/domain/entity"
 )
 
 type SourceClient struct {

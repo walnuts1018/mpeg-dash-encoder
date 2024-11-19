@@ -8,10 +8,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
-	"github.com/walnuts1018/mpeg_dash-encoder/domain/logger"
-	"github.com/walnuts1018/mpeg_dash-encoder/tracer"
-	"github.com/walnuts1018/mpeg_dash-encoder/wire"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/domain/logger"
+	"github.com/walnuts1018/mpeg-dash-encoder/tracer"
+	"github.com/walnuts1018/mpeg-dash-encoder/wire"
 )
 
 func main() {

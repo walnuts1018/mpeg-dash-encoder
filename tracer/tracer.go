@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/walnuts1018/mpeg_dash-encoder/consts"
+	"github.com/walnuts1018/mpeg-dash-encoder/consts"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
 	"go.opentelemetry.io/otel/propagation"
@@ -13,7 +13,7 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
 )
 
-var Tracer = otel.Tracer("github.com/walnuts1018/mpeg_dash-encoder")
+var Tracer = otel.Tracer("github.com/walnuts1018/mpeg-dash-encoder")
 
 func NewTracerProvider(ctx context.Context) (func(), error) {
 	exporter, err := otlptracegrpc.New(ctx)

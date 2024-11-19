@@ -9,8 +9,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
-	"github.com/walnuts1018/mpeg_dash-encoder/util/random"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/util/random"
 )
 
 const testFilesDir = "./test_files"

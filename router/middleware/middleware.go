@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
-	"github.com/walnuts1018/mpeg_dash-encoder/usecase"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/usecase"
 )
 
 type Middleware struct {

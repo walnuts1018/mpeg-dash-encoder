@@ -1,10 +1,10 @@
 package wire
 
 import (
-	"github.com/walnuts1018/mpeg_dash-encoder/infra/ffmpeg"
-	"github.com/walnuts1018/mpeg_dash-encoder/infra/jwt"
-	"github.com/walnuts1018/mpeg_dash-encoder/infra/minio"
-	"github.com/walnuts1018/mpeg_dash-encoder/usecase"
+	"github.com/walnuts1018/mpeg-dash-encoder/infra/ffmpeg"
+	"github.com/walnuts1018/mpeg-dash-encoder/infra/jwt"
+	"github.com/walnuts1018/mpeg-dash-encoder/infra/minio"
+	"github.com/walnuts1018/mpeg-dash-encoder/usecase"
 )
 
 var _ usecase.TokenIssuer = &jwt.Manager{}
