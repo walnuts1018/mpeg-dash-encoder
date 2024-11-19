@@ -1,0 +1,11 @@
+FROM golang
+WORKDIR /app
+
+RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    apt-get -y update && apt-get install -y ffmpeg
+
+COPY . .
+
+EXPOSE 8080
+CMD ["go", "run", "main.go"]

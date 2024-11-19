@@ -1,0 +1,62 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    working_dir: /app
+    tty: true
+    volumes:
+      - target: /go/pkg/mod
+        type: tmpfs
+      - target: /root/.cache/go-build
+        type: tmpfs
+    ports:
+      - "8080:8080"
+    environment:
+      LOG_LEVEL: debug
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: mockaccesskey
+      MINIO_SECRET_KEY: mocksecretkey
+      MinIOUseSSL: "true"
+      REDIS_HOST: redis
+      REDIS_PASSWORD: "redispassword"
+      SESSION_SECRET: "mock-session-secret-----"
+      LOG_TYPE: "text"
+      MINIO_PUBLIC_ENDPOINT: "https://minio.local.walnuts.dev"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      - minio
+      - redis
+    develop:
+      watch:
+        - action: rebuild
+          path: ./
+  minio:
+    image: minio/minio
+    ports:
+      - 9001:9001
+    volumes:
+      - minio_data:/export
+      - minio_config:/root/.minio
+    environment:
+      MINIO_ACCESS_KEY: mockaccesskey
+      MINIO_SECRET_KEY: mocksecretkey
+    command: server /export --console-address ":9001"
+
+networks:
+  default: {}
+
+volumes:
+  postgres_data:
+    driver: local
+  minio_data:
+    driver: local
+  minio_config:
+    driver: local
+  redis_data:
+    driver: local
