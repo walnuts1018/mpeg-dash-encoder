@@ -6,7 +6,6 @@ import (
 	"io"
 	"log/slog"
 	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/Code-Hex/synchro"
@@ -33,23 +32,31 @@ func (u *Usecase) Run(ctx context.Context) {
 		}
 	}(ctx)
 
+	tickerFunc := func() {
+		slog.Debug("start to download uploaded files")
+		req, err := u.downloadUploadedFiles(ctx)
+		if err != nil {
+			slog.Error("failed to download uploaded files", slog.Any("error", err))
+			return
+		}
+
+		if req == nil {
+			slog.Debug("no uploaded files")
+			return
+		}
+		slog.Debug("downloaded uploaded files", slog.Any("mediaID", req.mediaID), slog.Any("uploadedFilePath", req.uploadedFilePath))
+
+		u.encodeQueue <- *req
+	}
+	tickerFunc()
+
 	ticker := time.NewTicker(1 * time.Minute)
 	defer ticker.Stop()
 
 	for {
 		select {
 		case <-ticker.C:
-			req, err := u.downloadUploadedFiles(ctx)
-			if err != nil {
-				slog.Error("failed to download uploaded files", slog.Any("error", err))
-				continue
-			}
-
-			if req == nil {
-				continue
-			}
-
-			u.encodeQueue <- *req
+			tickerFunc()
 		case <-ctx.Done():
 			if err := u.shutdown(ctx); err != nil {
 				slog.Error("failed to shutdown", slog.Any("error", err))
@@ -60,6 +67,7 @@ func (u *Usecase) Run(ctx context.Context) {
 }
 
 func (u *Usecase) encode(ctx context.Context, req encodeRequest) error {
+	slog.Debug("start to encode", slog.Any("mediaID", req.mediaID), slog.Any("uploadedFilePath", req.uploadedFilePath))
 	encodedDir, err := u.encoder.Encode(req.mediaID, req.uploadedFilePath, false)
 	if err != nil {
 		return fmt.Errorf("failed to encode: %w", err)
@@ -107,10 +115,13 @@ func (u *Usecase) downloadUploadedFiles(ctx context.Context) (*encodeRequest, er
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse startAt tag: %w", err)
 			}
+			slog.Debug("startAt", slog.Any("startAt", startAtTime))
 
 			if !synchro.Now[tz.AsiaTokyo]().After(startAtTime.Add(u.encodeTimeout)) {
 				continue
 			}
+		} else {
+			slog.Debug("tags not found")
 		}
 
 		if err := u.sourceRepo.SetObjectTags(ctx, objectInfo.ID, map[string]string{"startAt": synchro.Now[tz.AsiaTokyo]().Format(time.RFC3339), "hostname": u.hostname}); err != nil {
@@ -134,7 +145,7 @@ func (u *Usecase) downloadUploadedFiles(ctx context.Context) (*encodeRequest, er
 
 		return &encodeRequest{
 			mediaID:          objectInfo.ID,
-			uploadedFilePath: filepath.Join(os.TempDir(), file.Name()),
+			uploadedFilePath: file.Name(),
 		}, nil
 	}
 	return nil, nil

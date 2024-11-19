@@ -37,12 +37,6 @@ type Config struct {
 
 	MinIOSourceUploadBucket SourceClientBucketName  `env:"MINIO_SOURCE_UPLOAD_BUCKET" envDefault:"mpeg-dash-encoder-source-upload"`
 	MinIOOutputBucket       EncodedObjectBucketName `env:"MINIO_OUTPUT_BUCKET" envDefault:"mpeg-dash-encoder-output"`
-
-	// ------------------------ Redis ------------------------
-	RedisHost     string `env:"REDIS_HOST" envDefault:"localhost"`
-	RedisPort     string `env:"REDIS_PORT" envDefault:"6379"`
-	RedisPassword string `env:"REDIS_PASSWORD,required"`
-	RedisDB       int    `env:"REDIS_DB" envDefault:"0"`
 }
 
 func Load() (Config, error) {

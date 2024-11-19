@@ -25,7 +25,9 @@ func NewSourceClient(bucketName config.SourceClientBucketName, client *minio.Cli
 }
 
 func (m *SourceClient) ListUploadedFiles(ctx context.Context) iter.Seq2[entity.SourceFile, error] {
-	infos := m.client.ListObjects(ctx, m.bucketName, minio.ListObjectsOptions{})
+	infos := m.client.ListObjects(ctx, m.bucketName, minio.ListObjectsOptions{
+		WithMetadata: true,
+	})
 	return func(yield func(entity.SourceFile, error) bool) {
 		for info := range infos {
 			if info.Err != nil {

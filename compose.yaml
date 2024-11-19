@@ -6,23 +6,20 @@ services:
     working_dir: /app
     tty: true
     volumes:
-      - target: /go/pkg/mod
-        type: tmpfs
-      - target: /root/.cache/go-build
-        type: tmpfs
+      - go_pkg_mod:/go/pkg/mod
+      - root_cache_go_build:/root/.cache/go-build
     ports:
       - "8080:8080"
     environment:
       LOG_LEVEL: debug
+      LOG_TYPE: "text"
+      ADMIN_TOKEN: "mockadmintoken"
+      JWT_SIGN_SECRET: "mockjwtsecret"
       MINIO_ENDPOINT: minio:9000
       MINIO_ACCESS_KEY: mockaccesskey
       MINIO_SECRET_KEY: mocksecretkey
-      MinIOUseSSL: "true"
-      REDIS_HOST: redis
-      REDIS_PASSWORD: "redispassword"
-      SESSION_SECRET: "mock-session-secret-----"
-      LOG_TYPE: "text"
-      MINIO_PUBLIC_ENDPOINT: "https://minio.local.walnuts.dev"
+      MinIOUseSSL: "false"
+      FFMPEG_HW_ACCEL: "false"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
       interval: 30s
@@ -31,7 +28,6 @@ services:
       start_period: 30s
     depends_on:
       - minio
-      - redis
     develop:
       watch:
         - action: rebuild
@@ -39,6 +35,7 @@ services:
   minio:
     image: minio/minio
     ports:
+      - 9000:9000
       - 9001:9001
     volumes:
       - minio_data:/export
@@ -52,11 +49,11 @@ networks:
   default: {}
 
 volumes:
-  postgres_data:
-    driver: local
   minio_data:
     driver: local
   minio_config:
     driver: local
-  redis_data:
+  go_pkg_mod:
+    driver: local
+  root_cache_go_build:
     driver: local
