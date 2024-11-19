@@ -15,7 +15,7 @@ import (
 )
 
 var baseURL = url.URL{Scheme: "https", Host: "to-be-replaced.example.com"}
-var OutDirPrefix = "mucaron-outdir"
+var OutDirPrefix = "mpeg-dash-encoder-outdir"
 
 type FFMPEG struct {
 	fps              int

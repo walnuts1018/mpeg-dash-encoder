@@ -19,7 +19,7 @@ type Config struct {
 	// ------------------------ Log ------------------------
 	LogLevel slog.Level `env:"LOG_LEVEL"`
 	LogType  LogType    `env:"LOG_TYPE" envDefault:"json"`
-	LogDir   string     `env:"LOG_DIR" envDefault:"/var/log/mucaron"`
+	LogDir   string     `env:"LOG_DIR" envDefault:"/var/log/mpeg-dash-encoder"`
 
 	// ------------------------ Application ------------------------
 	AdminToken    AdminToken    `env:"ADMIN_TOKEN,required"`
