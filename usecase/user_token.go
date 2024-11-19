@@ -3,7 +3,7 @@ package usecase
 import (
 	"errors"
 
-	"github.com/walnuts1018/mpeg_dash-encoder/domain"
+	"github.com/walnuts1018/mpeg-dash-encoder/domain"
 )
 
 func (u *Usecase) CreateUserToken(

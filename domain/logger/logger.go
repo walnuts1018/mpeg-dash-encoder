@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/lmittmann/tint"
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
 )
 
 func CreateAndSetLogger(logLevel slog.Level, logType config.LogType) {

@@ -5,7 +5,7 @@ import (
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
 )
 
 func NewMinIOClient(cfg config.Config) (*minio.Client, error) {

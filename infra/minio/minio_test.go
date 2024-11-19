@@ -11,7 +11,7 @@ import (
 	"github.com/minio/minio-go/v7"
 	"github.com/ory/dockertest/v3"
 	"github.com/ory/dockertest/v3/docker"
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
 )
 
 const (

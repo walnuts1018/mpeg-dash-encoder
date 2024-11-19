@@ -6,7 +6,7 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
 )
 
 func TestJWT(t *testing.T) {

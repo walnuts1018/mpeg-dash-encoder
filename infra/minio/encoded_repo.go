@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/minio/minio-go/v7"
-	"github.com/walnuts1018/mpeg_dash-encoder/config"
+	"github.com/walnuts1018/mpeg-dash-encoder/config"
 )
 
 type EncodedObjectClient struct {

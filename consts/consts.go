@@ -1,3 +1,3 @@
 package consts
 
-const ApplicationName = "mpeg_dash-encoder"
+const ApplicationName = "mpeg-dash-encoder"
