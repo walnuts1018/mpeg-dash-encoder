@@ -39,6 +39,6 @@ func (h *Handler) GetMediaFile(c *gin.Context) {
 	defer file.Close()
 
 	c.DataFromReader(http.StatusOK, -1, "application/octet-stream", file, map[string]string{
-		"Cache-Control": "max-age=31536000",
+		"Cache-Control": "max-age=31536000, private, immutable",
 	})
 }
