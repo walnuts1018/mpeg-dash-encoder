@@ -133,6 +133,7 @@ func (u *Usecase) downloadUploadedFiles(ctx context.Context) (*encodeRequest, er
 		if err != nil {
 			return nil, fmt.Errorf("failed to get object: %w", err)
 		}
+		defer object.Close()
 
 		file, err := os.CreateTemp("", "mpeg-dash-encoder-downloaded")
 		if err != nil {

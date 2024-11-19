@@ -66,7 +66,7 @@ func (m *SourceClient) RemoveObjectTags(ctx context.Context, id string) error {
 	return nil
 }
 
-func (m *SourceClient) GetSourceContent(ctx context.Context, id string) (io.Reader, error) {
+func (m *SourceClient) GetSourceContent(ctx context.Context, id string) (io.ReadSeekCloser, error) {
 	obj, err := m.client.GetObject(ctx, m.bucketName, id, minio.GetObjectOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get object: %w", err)

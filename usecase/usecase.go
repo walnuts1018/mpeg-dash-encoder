@@ -32,12 +32,13 @@ type SourceRepository interface {
 	ListUploadedFiles(ctx context.Context) iter.Seq2[entity.SourceFile, error]
 	SetObjectTags(ctx context.Context, id string, tags map[string]string) error
 	RemoveObjectTags(ctx context.Context, id string) error
-	GetSourceContent(ctx context.Context, id string) (io.Reader, error)
+	GetSourceContent(ctx context.Context, id string) (io.ReadSeekCloser, error)
 	DeleteSourceContent(ctx context.Context, id string) error
 }
 
 type EncodedObjectRepository interface {
 	Upload(ctx context.Context, mediaID string, localDir string) error
+	GetObject(ctx context.Context, mediaID string, fileName string) (io.ReadSeekCloser, error)
 }
 
 type Encoder interface {

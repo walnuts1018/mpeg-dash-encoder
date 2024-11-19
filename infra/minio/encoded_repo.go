@@ -3,6 +3,7 @@ package minio
 import (
 	"context"
 	"fmt"
+	"io"
 	"io/fs"
 	"path"
 	"path/filepath"
@@ -46,4 +47,9 @@ func (m *EncodedObjectClient) Upload(ctx context.Context, mediaID string, localD
 		return fmt.Errorf("failed to upload directory: %w", err)
 	}
 	return nil
+}
+
+func (m *EncodedObjectClient) GetObject(ctx context.Context, mediaID string, fileName string) (io.ReadSeekCloser, error) {
+	objectPath := path.Join(mediaID, fileName)
+	return m.client.GetObject(ctx, m.bucketName, objectPath, minio.GetObjectOptions{})
 }

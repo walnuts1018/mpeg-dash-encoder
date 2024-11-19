@@ -48,11 +48,10 @@ func NewRouter(config config.Config, handler handler.Handler, m *middleware.Midd
 		admin.POST("/create_user_token", handler.CreateUserToken)
 	}
 
-	// user := v1.Group("/user")
-	// {
-	// 	// user.GET("/:media_id/dash.mpd", handler.GetDashManifest)
-	// 	// user.GET("/:media_id/:segment", handler.GetSegmentFile)
-	// }
+	user := v1.Group("/user")
+	{
+		user.GET("/:media_id/:filename", handler.GetMediaFile)
+	}
 
 	return r, nil
 }
