@@ -1,1 +1,1 @@
-# mpeg_dash-encoder
+# mpeg-dash-encoder

@@ -1,4 +1,4 @@
-module github.com/walnuts1018/mpeg_dash-encoder
+module github.com/walnuts1018/mpeg-dash-encoder
 
 go 1.23.3
 
