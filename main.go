@@ -28,11 +28,11 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGTERM, os.Interrupt, os.Kill)
 	defer stop()
 
-	close, err := tracer.NewTracerProvider(ctx)
+	closeFunc, err := tracer.NewTracerProvider(ctx)
 	if err != nil {
 		slog.Error(fmt.Sprintf("failed to create tracer provider: %v", err))
 	}
-	defer close()
+	defer closeFunc()
 
 	usecase, err := wire.CreateUsecase(ctx, cfg)
 	if err != nil {
@@ -52,7 +52,7 @@ func main() {
 		usecase.Run(ctx)
 	}()
 
-	if err := router.Run(fmt.Sprintf(":%s", cfg.ServerPort)); err != nil {
+	if err := router.Run(":" + cfg.ServerPort); err != nil {
 		slog.Error("Failed to run server", slog.Any("error", err))
 		os.Exit(1)
 	}

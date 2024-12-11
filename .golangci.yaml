@@ -1,16 +1,15 @@
 run:
   timeout: 5m
 
-
 linters:
   disable-all: false
   enable:
     - asasalint
     - containedctx
-    - contextcheck
+    # - contextcheck
     - copyloopvar
     - durationcheck
-    - exhaustruct
+    # - exhaustruct
     - fatcontext
     - gocheckcompilerdirectives
     - intrange

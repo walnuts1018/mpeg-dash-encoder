@@ -34,12 +34,12 @@ func NewTracerProvider(ctx context.Context) (func(), error) {
 	otel.SetTracerProvider(tp)
 	otel.SetTextMapPropagator(propagation.TraceContext{})
 
-	close := func() {
+	closeFunc := func() {
 		if err := tp.Shutdown(ctx); err != nil {
 			slog.Error("failed to shutdown TracerProvider", slog.Any(
 				"error", err,
 			))
 		}
 	}
-	return close, nil
+	return closeFunc, nil
 }

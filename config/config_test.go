@@ -27,6 +27,7 @@ func TestLoad(t *testing.T) {
 		{
 			name: "check custom type default",
 			envs: map[string]string{},
+			//nolint:exhaustruct
 			want: Config{
 				ServerPort: "8080",
 				LogLevel:   slog.LevelInfo,
@@ -38,6 +39,7 @@ func TestLoad(t *testing.T) {
 			envs: map[string]string{
 				"SERVER_PORT": "9000",
 			},
+			//nolint:exhaustruct
 			want: Config{
 				ServerPort: "9000",
 			},
@@ -48,6 +50,7 @@ func TestLoad(t *testing.T) {
 			envs: map[string]string{
 				"LOG_LEVEL": "debug",
 			},
+			//nolint:exhaustruct
 			want: Config{
 				LogLevel: slog.LevelDebug,
 			},
@@ -105,10 +108,12 @@ func Test_equal(t *testing.T) {
 		{
 			name: "normal",
 			args: args{
+				//nolint:exhaustruct
 				got: Config{
 					ServerPort: "8080",
 					LogLevel:   slog.LevelDebug,
 				},
+				//nolint:exhaustruct
 				want: Config{
 					ServerPort: "8080",
 					LogLevel:   slog.LevelDebug,
@@ -120,10 +125,12 @@ func Test_equal(t *testing.T) {
 		{
 			name: "not equal",
 			args: args{
+				//nolint:exhaustruct
 				got: Config{
 					ServerPort: "8080",
 					LogLevel:   slog.LevelInfo,
 				},
+				//nolint:exhaustruct
 				want: Config{
 					ServerPort: "9090",
 					LogLevel:   slog.LevelDebug,

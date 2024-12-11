@@ -15,6 +15,7 @@ func TestString(t *testing.T) {
 		f      func(got string) error
 		length uint
 	}
+	//nolint:exhaustruct
 	tests := []struct {
 		name      string
 		args      args

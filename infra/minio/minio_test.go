@@ -2,6 +2,7 @@ package minio
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"os"
@@ -24,7 +25,6 @@ const (
 var (
 	hostAndPort string
 	minioClient *minio.Client
-	testData    = []byte("testdata")
 )
 
 func TestMain(m *testing.M) {
@@ -44,8 +44,8 @@ func TestMain(m *testing.M) {
 			Repository: "minio/minio",
 			Tag:        "latest",
 			Env: []string{
-				fmt.Sprintf("MINIO_ACCESS_KEY=%s", accessKey),
-				fmt.Sprintf("MINIO_SECRET_KEY=%s", secretKey),
+				"MINIO_ACCESS_KEY=" + accessKey,
+				"MINIO_SECRET_KEY=" + secretKey,
 			},
 			Cmd: []string{"server", "/export", "--console-address", ":9001"},
 		},
@@ -86,7 +86,7 @@ func TestMain(m *testing.M) {
 		if online {
 			return nil
 		} else {
-			return fmt.Errorf("minio is offline")
+			return errors.New("minio is offline")
 		}
 
 	}); err != nil {

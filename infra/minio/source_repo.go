@@ -2,6 +2,7 @@ package minio
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"iter"
@@ -36,7 +37,7 @@ func (m *SourceClient) ListUploadedFiles(ctx context.Context) iter.Seq2[entity.S
 				}
 			}
 			if info.Key == "" {
-				if !yield(entity.SourceFile{}, fmt.Errorf("source object not found")) {
+				if !yield(entity.SourceFile{}, errors.New("source object not found")) {
 					return
 				}
 			}

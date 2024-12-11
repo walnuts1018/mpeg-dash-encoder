@@ -64,7 +64,7 @@ func NewUsecase(
 		encoder:       encoder,
 		sourceRepo:    sourceRepo,
 		encodedRepo:   encodedRepo,
-		encodeQueue:   make(chan encodeRequest, 0),
+		encodeQueue:   make(chan encodeRequest),
 		encodeTimeout: cfg.EncodeTimeout,
 		hostname:      hostname,
 	}, nil

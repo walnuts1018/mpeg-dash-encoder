@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
 
@@ -56,7 +57,7 @@ func (m *Manager) GetMediaIDsFromToken(token string) ([]string, error) {
 
 	claims, ok := t.Claims.(jwt.MapClaims)
 	if !ok {
-		return nil, fmt.Errorf("failed to parse claims")
+		return nil, errors.New("failed to parse claims")
 	}
 	slog.Debug("claims parsed", slog.Any("claims", fmt.Sprintf("%#v", claims)))
 

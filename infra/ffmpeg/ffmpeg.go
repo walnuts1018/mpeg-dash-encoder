@@ -5,16 +5,15 @@ import (
 	"fmt"
 	"io"
 	"log/slog"
-	"net/url"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strconv"
 
 	"github.com/walnuts1018/mpeg-dash-encoder/config"
 	"github.com/walnuts1018/mpeg-dash-encoder/util/fileutil"
 )
 
-var baseURL = url.URL{Scheme: "https", Host: "to-be-replaced.example.com"}
 var OutDirPrefix = "mpeg-dash-encoder-outdir"
 
 type FFMPEG struct {
@@ -85,7 +84,7 @@ func (f *FFMPEG) createArgs(inputFileName, outputDirectory string, audioOnly boo
 	}
 
 	args = append(args,
-		"-r", fmt.Sprintf("%d", f.fps),
+		"-r", strconv.Itoa(f.fps),
 		"-c:v", f.videoCodec,
 		"-c:a", f.audioCodec,
 	)
@@ -98,9 +97,9 @@ func (f *FFMPEG) createArgs(inputFileName, outputDirectory string, audioOnly boo
 		for i, quality := range f.videoQualityKeys {
 			var videoFilter string
 			if f.useQSV {
-				videoFilter = fmt.Sprintf("scale_qsv=%s", videoQualities[quality].Scale)
+				videoFilter = "scale_qsv=" + videoQualities[quality].Scale
 			} else {
-				videoFilter = fmt.Sprintf("scale=%s", videoQualities[quality].Scale)
+				videoFilter = "scale=%s" + videoQualities[quality].Scale
 			}
 
 			args = append(args,

@@ -41,6 +41,7 @@ type Config struct {
 
 func Load() (Config, error) {
 	var cfg Config
+	//nolint:exhaustruct
 	if err := env.ParseWithOptions(&cfg, env.Options{
 		FuncMap: map[reflect.Type]env.ParserFunc{
 			reflect.TypeOf(slog.Level(0)):    returnAny(ParseLogLevel),

@@ -12,6 +12,7 @@ func CreateAndSetLogger(logLevel slog.Level, logType config.LogType) {
 	var hander slog.Handler
 	switch logType {
 	case config.LogTypeText:
+		//nolint:exhaustruct
 		hander = tint.NewHandler(os.Stdout, &tint.Options{
 			Level:     logLevel,
 			AddSource: logLevel == slog.LevelDebug,
