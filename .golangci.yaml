@@ -1,0 +1,31 @@
+linters:
+  disable-all: false
+  enable:
+    - asasalint
+    - containedctx
+    - contextcheck
+    - copyloopvar
+    - durationcheck
+    - exhaustruct
+    - fatcontext
+    - gocheckcompilerdirectives
+    - intrange
+    - loggercheck
+    - makezero
+    - mirror
+    - nilerr
+    - noctx
+    - nolintlint
+    - perfsprint
+    - prealloc
+    - predeclared
+    - reassign
+    - rowserrcheck
+    - sloglint
+    - sqlclosecheck
+    - tenv
+    - testableexamples
+    - thelper
+    - unconvert
+    - usestdlibvars
+

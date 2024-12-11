@@ -27,8 +27,10 @@ jobs:
           go generate ./...
           git diff --exit-code -- ':(exclude)go.sum'
 
-      - name: go build
-        run: go build .
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.60
 
       - name: Install ffmpeg
         run: |

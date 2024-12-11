@@ -2,7 +2,6 @@ package config
 
 import (
 	"log/slog"
-	"os"
 	"reflect"
 	"testing"
 
@@ -57,19 +56,13 @@ func TestLoad(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			os.Clearenv()
-
 			var envs = requiredEnvs
 			for k, v := range tt.envs {
 				envs[k] = v
 			}
 
 			for k, v := range envs {
-				if err := os.Setenv(k, v); err != nil {
-					t.Errorf("failed to set env: %v", err)
-					return
-				}
-				defer os.Unsetenv(k)
+				t.Setenv(k, v)
 			}
 
 			got, err := Load()
