@@ -6,9 +6,9 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	"reflect"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/walnuts1018/mpeg-dash-encoder/config"
 	"github.com/walnuts1018/mpeg-dash-encoder/util/random"
 )
@@ -33,61 +33,86 @@ func init() {
 }
 
 func TestFFMPEG_CreateArgs(t *testing.T) {
-	f := &FFMPEG{
-		fps:    30,
-		preset: Veryslow,
-		videoQualityKeys: []VideoQualityKey{
-			VideoQualityKey360P,
-			VideoQualityKey720P,
-			VideoQualityKey1080P,
-		},
-		videoCodec: "h264_qsv",
-		audioCodec: "aac",
-		logFileDir: "./log",
-		useQSV:     true,
-	}
-
 	type args struct {
 		inputFileName   string
 		outputDirectory string
 		audioOnly       bool
 	}
 	tests := []struct {
-		name    string
-		args    args
-		want    []string
-		wantErr bool
+		name   string
+		ffmpeg config.FFmpegConfig
+		args   args
+		want   []string
 	}{
 		{
-			name: "audioOnly",
+			name: "with video, no hwAccel",
+			ffmpeg: config.FFmpegConfig{
+				LogDir:     "./log",
+				FPS:        30,
+				Preset:     config.Veryslow,
+				HWAccel:    config.FFmpegHWAccelNone,
+				AudioCodec: "aac",
+			},
 			args: args{
 				inputFileName:   "input.mp4",
 				outputDirectory: "Dash",
-				audioOnly:       true,
+				audioOnly:       false,
 			},
 			want: []string{
-				"-hwaccel", "qsv",
-				"-hwaccel_output_format", "qsv",
 				"-i", "input.mp4",
 				"-y",
 				"-hide_banner",
 				"-progress", "-",
+				"-preset", "veryslow",
+				"-keyint_min", "100",
+				"-g", "100",
+				"-sc_threshold", "0",
 				"-r", "30",
-				"-c:v", "h264_qsv",
+				"-c:v", "libx264",
 				"-c:a", "aac",
+				"-pix_fmt", "yuv420p",
+
+				// 360p
+				"-map", "v:0?",
+				"-filter:v:0", "scale=-1:360",
+				"-b:v:0", "365k",
+				"-maxrate:0", "390k",
+				"-bufsize:0", "640k",
+
+				// 720p
+				"-map", "v:0?",
+				"-filter:v:1", "scale=-1:720",
+				"-b:v:1", "4.5M",
+				"-maxrate:1", "4.8M",
+				"-bufsize:1", "8M",
+
+				// 1080p
+				"-map", "v:0?",
+				"-filter:v:2", "scale=-1:1080",
+				"-b:v:2", "7.8M",
+				"-maxrate:2", "8.3M",
+				"-bufsize:2", "14M",
+
 				"-map", "0:a",
 				"-init_seg_name", `init$RepresentationID$.$ext$`,
 				"-media_seg_name", `chunk$RepresentationID$-$Number%05d$.$ext$`,
 				"-use_template", "1",
 				"-use_timeline", "1",
 				"-seg_duration", "4",
-				"-adaptation_sets", `id=0,streams=a`,
+				"-adaptation_sets", `id=0,streams=a id=1,streams=v`,
 				"-f", "dash",
 				filepath.Join("Dash", "dash.mpd"),
 			},
 		},
 		{
-			name: "with video",
+			name: "with video, qsv",
+			ffmpeg: config.FFmpegConfig{
+				LogDir:     "./log",
+				FPS:        30,
+				Preset:     config.Veryslow,
+				HWAccel:    config.FFmpegHWAccelQSV,
+				AudioCodec: "aac",
+			},
 			args: args{
 				inputFileName:   "input.mp4",
 				outputDirectory: "Dash",
@@ -140,31 +165,101 @@ func TestFFMPEG_CreateArgs(t *testing.T) {
 				filepath.Join("Dash", "dash.mpd"),
 			},
 		},
+		{
+			name: "audioOnly, no hwAccel",
+			ffmpeg: config.FFmpegConfig{
+				LogDir:     "./log",
+				FPS:        30,
+				Preset:     config.Veryslow,
+				HWAccel:    config.FFmpegHWAccelNone,
+				AudioCodec: "aac",
+			},
+			args: args{
+				inputFileName:   "input.mp4",
+				outputDirectory: "Dash",
+				audioOnly:       true,
+			},
+			want: []string{
+				"-i", "input.mp4",
+				"-y",
+				"-hide_banner",
+				"-progress", "-",
+				"-r", "30",
+				"-c:v", "libx264",
+				"-c:a", "aac",
+				"-pix_fmt", "yuv420p",
+				"-map", "0:a",
+				"-init_seg_name", `init$RepresentationID$.$ext$`,
+				"-media_seg_name", `chunk$RepresentationID$-$Number%05d$.$ext$`,
+				"-use_template", "1",
+				"-use_timeline", "1",
+				"-seg_duration", "4",
+				"-adaptation_sets", `id=0,streams=a`,
+				"-f", "dash",
+				filepath.Join("Dash", "dash.mpd"),
+			},
+		},
+		{
+			name: "audioOnly, qsv",
+			ffmpeg: config.FFmpegConfig{
+				LogDir:     "./log",
+				FPS:        30,
+				Preset:     config.Veryslow,
+				HWAccel:    config.FFmpegHWAccelQSV,
+				AudioCodec: "aac",
+			},
+			args: args{
+				inputFileName:   "input.mp4",
+				outputDirectory: "Dash",
+				audioOnly:       true,
+			},
+			want: []string{
+				"-hwaccel", "qsv",
+				"-hwaccel_output_format", "qsv",
+				"-i", "input.mp4",
+				"-y",
+				"-hide_banner",
+				"-progress", "-",
+				"-r", "30",
+				"-c:v", "h264_qsv",
+				"-c:a", "aac",
+				"-map", "0:a",
+				"-init_seg_name", `init$RepresentationID$.$ext$`,
+				"-media_seg_name", `chunk$RepresentationID$-$Number%05d$.$ext$`,
+				"-use_template", "1",
+				"-use_timeline", "1",
+				"-seg_duration", "4",
+				"-adaptation_sets", `id=0,streams=a`,
+				"-f", "dash",
+				filepath.Join("Dash", "dash.mpd"),
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			f, err := NewFFMPEG(tt.ffmpeg)
+			assert.NoError(t, err)
+			assert.NotNil(t, f)
+
 			got, err := f.createArgs(tt.args.inputFileName, tt.args.outputDirectory, tt.args.audioOnly)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("FFMPEG.CreateArgs() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("FFMPEG.CreateArgs() = %v, want %v", got, tt.want)
-			}
+			assert.NoError(t, err)
+			assert.Equal(t, tt.want, got)
 		})
 	}
 }
 
 func TestFFMPEG_Encode(t *testing.T) {
-	f, err := NewFFMPEG(config.Config{
-		LogDir:        "./log",
-		FFMPEGHwAccel: "",
+	f, err := NewFFMPEG(config.FFmpegConfig{
+		LogDir:     "./log",
+		FPS:        30,
+		Preset:     config.Veryfast,
+		HWAccel:    config.FFmpegHWAccelNone,
+		AudioCodec: "aac",
 	})
 	if err != nil {
 		t.Errorf("failed to create ffmpeg: %v", err)
 		return
 	}
-	f.preset = Veryfast
 
 	type args struct {
 		id        string

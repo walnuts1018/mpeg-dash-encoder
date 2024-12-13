@@ -8,6 +8,6 @@ import (
 )
 
 var _ usecase.TokenIssuer = &jwt.Manager{}
-var _ usecase.Encoder = &ffmpeg.FFMPEG{}
+var _ usecase.Encoder = &ffmpeg.FFmpeg{}
 var _ usecase.SourceRepository = &minio.SourceClient{}
 var _ usecase.EncodedObjectRepository = &minio.EncodedObjectClient{}

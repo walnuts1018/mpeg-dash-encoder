@@ -25,7 +25,8 @@ import (
 func CreateUsecase(ctx context.Context, cfg config.Config) (*usecase.Usecase, error) {
 	jwtSigningKey := cfg.JWTSigningKey
 	manager := jwt.NewManager(jwtSigningKey)
-	ffmpegFFMPEG, err := ffmpeg.NewFFMPEG(cfg)
+	fFmpegConfig := cfg.FFmpegConfig
+	fFmpeg, err := ffmpeg.NewFFMPEG(fFmpegConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +38,7 @@ func CreateUsecase(ctx context.Context, cfg config.Config) (*usecase.Usecase, er
 	sourceClient := minio.NewSourceClient(sourceClientBucketName, client)
 	encodedObjectBucketName := cfg.MinIOOutputBucket
 	encodedObjectClient := minio.NewEncodedObjectClient(encodedObjectBucketName, client)
-	usecaseUsecase, err := usecase.NewUsecase(cfg, manager, ffmpegFFMPEG, sourceClient, encodedObjectClient)
+	usecaseUsecase, err := usecase.NewUsecase(cfg, manager, fFmpeg, sourceClient, encodedObjectClient)
 	if err != nil {
 		return nil, err
 	}
@@ -66,12 +67,13 @@ var minioSourceClientSet = wire.NewSet(minio.NewSourceClient, wire.Bind(new(usec
 
 var minioEncodedObjectClientSet = wire.NewSet(minio.NewEncodedObjectClient, wire.Bind(new(usecase.EncodedObjectRepository), new(*minio.EncodedObjectClient)))
 
-var ffmpegSet = wire.NewSet(ffmpeg.NewFFMPEG, wire.Bind(new(usecase.Encoder), new(*ffmpeg.FFMPEG)))
+var ffmpegSet = wire.NewSet(ffmpeg.NewFFMPEG, wire.Bind(new(usecase.Encoder), new(*ffmpeg.FFmpeg)))
 
 var UsecaseConfigSet = wire.FieldsOf(new(config.Config),
 	"JWTSigningKey",
 	"MinIOSourceUploadBucket",
 	"MinIOOutputBucket",
+	"FFmpegConfig",
 )
 
 var RouterConfigSet = wire.FieldsOf(new(config.Config),

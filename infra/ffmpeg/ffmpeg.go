@@ -14,53 +14,48 @@ import (
 	"github.com/walnuts1018/mpeg-dash-encoder/util/fileutil"
 )
 
-var OutDirPrefix = "mpeg-dash-encoder-outdir"
+const (
+	outDirPrefix = "mpeg-dash-encoder-outdir"
+)
 
-type FFMPEG struct {
-	fps              int
-	preset           Preset
-	videoCodec       string
+type FFmpeg struct {
+	fps              string
+	preset           config.FFmpegPreset
 	audioCodec       string
 	videoQualityKeys []VideoQualityKey
 	logFileDir       string
-
-	useQSV bool
+	hwAccel          config.FFmpegHWAccel
 }
 
-func NewFFMPEG(cfg config.Config) (*FFMPEG, error) {
-	useQSV := cfg.FFMPEGHwAccel == "qsv"
-
-	var videoCodec string
-	if useQSV {
-		videoCodec = "h264_qsv"
-	} else {
+func NewFFMPEG(cfg config.FFmpegConfig) (*FFmpeg, error) {
+	if cfg.HWAccel == config.FFmpegHWAccelNone {
 		slog.Warn("QSV is not available, using software codec")
-		videoCodec = "libx264"
 	}
 
-	return &FFMPEG{
-		fps:        30,
-		preset:     Medium,
-		videoCodec: videoCodec,
-		audioCodec: "aac",
+	return &FFmpeg{
+		fps:        strconv.Itoa(cfg.FPS),
+		preset:     cfg.Preset,
+		audioCodec: cfg.AudioCodec,
 		videoQualityKeys: []VideoQualityKey{
 			VideoQualityKey360P,
 			VideoQualityKey720P,
 			VideoQualityKey1080P,
 		},
-		logFileDir: filepath.Join(cfg.LogDir, "ffmpeg"),
-		useQSV:     useQSV,
+		logFileDir: cfg.LogDir,
+		hwAccel:    cfg.HWAccel,
 	}, nil
 }
 
-func (f *FFMPEG) GetOutDirPrefix() string {
-	return OutDirPrefix
+func (f *FFmpeg) GetOutDirPrefix() string {
+	return outDirPrefix
 }
 
-func (f *FFMPEG) createArgs(inputFileName, outputDirectory string, audioOnly bool) ([]string, error) {
+func (f *FFmpeg) createArgs(inputFileName, outputDirectory string, audioOnly bool) ([]string, error) {
 	args := make([]string, 0, 65)
 
-	if f.useQSV {
+	// hwaccel option
+	switch f.hwAccel {
+	case config.FFmpegHWAccelQSV:
 		args = append(args,
 			"-hwaccel", "qsv",
 			"-hwaccel_output_format", "qsv",
@@ -83,23 +78,33 @@ func (f *FFMPEG) createArgs(inputFileName, outputDirectory string, audioOnly boo
 		)
 	}
 
+	var videoCodec string
+	switch f.hwAccel {
+	case config.FFmpegHWAccelQSV:
+		videoCodec = "h264_qsv"
+	case config.FFmpegHWAccelNone:
+		videoCodec = "libx264"
+	}
+
 	args = append(args,
-		"-r", strconv.Itoa(f.fps),
-		"-c:v", f.videoCodec,
+		"-r", f.fps,
+		"-c:v", videoCodec,
 		"-c:a", f.audioCodec,
 	)
 
-	if !f.useQSV {
+	switch f.hwAccel {
+	case config.FFmpegHWAccelNone:
 		args = append(args, "-pix_fmt", "yuv420p")
 	}
 
 	if !audioOnly {
 		for i, quality := range f.videoQualityKeys {
 			var videoFilter string
-			if f.useQSV {
+			switch f.hwAccel {
+			case config.FFmpegHWAccelQSV:
 				videoFilter = "scale_qsv=" + videoQualities[quality].Scale
-			} else {
-				videoFilter = "scale=%s" + videoQualities[quality].Scale
+			case config.FFmpegHWAccelNone:
+				videoFilter = "scale=" + videoQualities[quality].Scale
 			}
 
 			args = append(args,
@@ -135,8 +140,8 @@ func (f *FFMPEG) createArgs(inputFileName, outputDirectory string, audioOnly boo
 	return args, nil
 }
 
-func (f *FFMPEG) Encode(mediaID string, sourceFilePath string, audioOnly bool) (string, error) {
-	outDir, err := os.MkdirTemp("", OutDirPrefix)
+func (f *FFmpeg) Encode(mediaID string, sourceFilePath string, audioOnly bool) (string, error) {
+	outDir, err := os.MkdirTemp("", outDirPrefix)
 	if err != nil {
 		return "", err
 	}

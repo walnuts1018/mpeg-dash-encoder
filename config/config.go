@@ -19,14 +19,15 @@ type Config struct {
 	// ------------------------ Log ------------------------
 	LogLevel slog.Level `env:"LOG_LEVEL"`
 	LogType  LogType    `env:"LOG_TYPE" envDefault:"json"`
-	LogDir   string     `env:"LOG_DIR" envDefault:"/var/log/mpeg-dash-encoder"`
 
 	// ------------------------ Application ------------------------
 	AdminToken    AdminToken    `env:"ADMIN_TOKEN,required"`
 	MaxUploadSize uint64        `env:"MAX_UPLOAD_SIZE" envDefault:"1073741824"` //1GB
 	EncodeTimeout time.Duration `env:"ENCODE_TIMEOUT" envDefault:"1h"`
-	FFMPEGHwAccel string        `env:"FFMPEG_HW_ACCEL" envDefault:"qsv"`
 	JWTSigningKey JWTSigningKey `env:"JWT_SIGN_SECRET,required"`
+
+	// ------------------------ FFmpeg ------------------------
+	FFmpegConfig FFmpegConfig `envPrefix:"FFMPEG_"`
 
 	// ------------------------ MinIO ------------------------
 	MinIOEndpoint       string `env:"MINIO_ENDPOINT" envDefault:"localhost:9000"`

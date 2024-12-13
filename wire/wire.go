@@ -66,13 +66,14 @@ var minioEncodedObjectClientSet = wire.NewSet(
 
 var ffmpegSet = wire.NewSet(
 	ffmpeg.NewFFMPEG,
-	wire.Bind(new(usecase.Encoder), new(*ffmpeg.FFMPEG)),
+	wire.Bind(new(usecase.Encoder), new(*ffmpeg.FFmpeg)),
 )
 
 var UsecaseConfigSet = wire.FieldsOf(new(config.Config),
 	"JWTSigningKey",
 	"MinIOSourceUploadBucket",
 	"MinIOOutputBucket",
+	"FFmpegConfig",
 )
 
 var RouterConfigSet = wire.FieldsOf(new(config.Config),
