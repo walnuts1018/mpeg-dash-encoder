@@ -1,10 +1,10 @@
 module github.com/walnuts1018/mpeg-dash-encoder
 
-go 1.23.3
+go 1.23.4
 
 require (
 	dario.cat/mergo v1.0.1
-	github.com/Code-Hex/synchro v0.5.2
+	github.com/Code-Hex/synchro v0.5.3
 	github.com/air-verse/air v1.61.5
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/gin-gonic/gin v1.10.0
@@ -140,7 +140,7 @@ require (
 	github.com/hexops/gotextdiff v1.0.3 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/invopop/yaml v0.3.1 // indirect
-	github.com/itchyny/timefmt-go v0.1.5 // indirect
+	github.com/itchyny/timefmt-go v0.1.6 // indirect
 	github.com/jgautheron/goconst v1.7.1 // indirect
 	github.com/jingyugao/rowserrcheck v1.1.1 // indirect
 	github.com/jjti/go-spancheck v0.6.2 // indirect
