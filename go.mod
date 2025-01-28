@@ -12,7 +12,7 @@ require (
 	github.com/golangci/golangci-lint v1.63.4
 	github.com/google/wire v0.6.0
 	github.com/joho/godotenv v1.5.1
-	github.com/lmittmann/tint v1.0.6
+	github.com/lmittmann/tint v1.0.7
 	github.com/minio/minio-go/v7 v7.0.84
 	github.com/onsi/ginkgo/v2 v2.22.2
 	github.com/onsi/gomega v1.36.2
