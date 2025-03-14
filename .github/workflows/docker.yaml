@@ -40,7 +40,7 @@ jobs:
             ghcr.io/walnuts1018/mpeg-dash-encoder:${{ github.sha }}-${{ github.run_number }}
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@0.30.0
         with:
           image-ref: "ghcr.io/walnuts1018/mpeg-dash-encoder:${{ github.sha }}-${{ github.run_number }}"
           format: "sarif"
