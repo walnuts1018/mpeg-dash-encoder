@@ -24,7 +24,7 @@ func NewHandler(config config.Config, usecase *usecase.Usecase) (Handler, error)
 func (h *Handler) getAuthorizedMediaIDs(c *gin.Context) ([]string, error) {
 	token, ok := strings.CutPrefix(c.GetHeader("Authorization"), "Bearer ")
 	if !ok {
-		return nil, errors.New("Authorization header is missing")
+		return nil, errors.New("authorization header is missing")
 	}
 	return h.usecase.GetMediaIDsFromToken(token)
 }
