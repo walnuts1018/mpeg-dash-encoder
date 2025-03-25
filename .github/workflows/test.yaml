@@ -28,7 +28,7 @@ jobs:
           git diff --exit-code -- ':(exclude)go.sum'
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@55c2c1448f86e01eaae002a5a3a9624417608d84 # v6
         with:
           version: v1.63.1
 
@@ -41,7 +41,7 @@ jobs:
         run: go test -cover ./... -coverprofile="cover.out"
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@0565863a31f2c772f9f0395002a31e3f06189574 # v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: cover.out
