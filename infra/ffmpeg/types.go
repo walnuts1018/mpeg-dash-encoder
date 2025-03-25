@@ -1,7 +1,5 @@
 package ffmpeg
 
-
-
 type VideoQuality struct {
 	Scale      string
 	Bitrate    string
