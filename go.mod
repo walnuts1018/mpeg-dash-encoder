@@ -1,6 +1,8 @@
 module github.com/walnuts1018/mpeg-dash-encoder
 
-go 1.23.4
+go 1.24.1
+
+tool github.com/golangci/golangci-lint/cmd/golangci-lint
 
 require (
 	dario.cat/mergo v1.0.1
