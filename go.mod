@@ -19,7 +19,7 @@ require (
 	github.com/minio/minio-go/v7 v7.0.89
 	github.com/onsi/ginkgo/v2 v2.23.3
 	github.com/onsi/gomega v1.36.3
-	github.com/ory/dockertest/v3 v3.11.0
+	github.com/ory/dockertest/v3 v3.12.0
 	github.com/samber/slog-gin v1.15.0
 	github.com/stretchr/testify v1.10.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.60.0
@@ -77,7 +77,7 @@ require (
 	github.com/chavacava/garif v0.1.0 // indirect
 	github.com/ckaznocha/intrange v0.3.1 // indirect
 	github.com/cloudwego/base64x v0.1.5 // indirect
-	github.com/containerd/continuity v0.4.3 // indirect
+	github.com/containerd/continuity v0.4.5 // indirect
 	github.com/creack/pty v1.1.23 // indirect
 	github.com/curioswitch/go-reassign v0.3.0 // indirect
 	github.com/daixiang0/gci v0.13.6 // indirect
@@ -85,7 +85,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect
 	github.com/dlclark/regexp2 v1.11.4 // indirect
-	github.com/docker/cli v26.1.4+incompatible // indirect
+	github.com/docker/cli v27.4.1+incompatible // indirect
 	github.com/docker/docker v27.1.1+incompatible // indirect
 	github.com/docker/go-connections v0.5.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
@@ -196,7 +196,7 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0 // indirect
-	github.com/opencontainers/runc v1.2.0 // indirect
+	github.com/opencontainers/runc v1.2.3 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
