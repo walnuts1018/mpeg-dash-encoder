@@ -13,7 +13,7 @@ require (
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt/v5 v5.2.2
-	github.com/google/wire v0.6.0
+	github.com/google/wire v0.7.0
 	github.com/joho/godotenv v1.5.1
 	github.com/lmittmann/tint v1.0.7
 	github.com/minio/minio-go/v7 v7.0.90
