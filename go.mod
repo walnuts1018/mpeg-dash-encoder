@@ -1,6 +1,6 @@
 module github.com/walnuts1018/mpeg-dash-encoder
 
-go 1.24.1
+go 1.26.0
 
 tool (
 	github.com/golangci/golangci-lint/v2/cmd/golangci-lint
@@ -10,7 +10,7 @@ tool (
 require (
 	dario.cat/mergo v1.0.1
 	github.com/Code-Hex/synchro v0.5.3
-	github.com/caarlos0/env/v11 v11.3.1
+	github.com/caarlos0/env/v11 v11.4.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/google/wire v0.6.0
