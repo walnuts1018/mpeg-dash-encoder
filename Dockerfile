@@ -14,7 +14,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build,sharing=locked \
     CGO_ENABLED=0 GOOS=linux go build -o main /$ROOT && chmod +x ./main
 
-FROM ubuntu:24.04
+FROM ubuntu:26.04@sha256:065aa8626841f16057b78b027b464cd59c4fac36c204c72dcbf48d66f5fa8a96
 WORKDIR /app
 
 RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
